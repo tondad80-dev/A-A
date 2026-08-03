@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrace ceníku | Kniničky</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+        .item { background: #f3f4f6; padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
+        label { display: block; font-weight: bold; margin-bottom: 0.5rem; }
+        input[type="number"] { width: 100px; padding: 0.5rem; font-size: 1rem; }
+        button { background: #2d5a27; color: white; border: none; padding: 0.75rem 1.5rem; font-size: 1rem; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #1e3d1a; }
+    </style>
+</head>
+<body>
+    <h1>Administrace ceníku</h1>
+    <p>Upravte ceny položek a vygenerujte nový soubor <code>data.js</code> pro nahrání na GitHub.</p>
+    
+    <div id="editor"></div>
+    <button onclick="exportovat()">Exportovat data.js</button>
+
+    <script src="data.js"></script>
+    <script>
+        const editor = document.getElementById("editor");
+        produkty.zelenina.forEach((p, i) => {
+            const block = document.createElement("div");
+            block.className = "item";
+            block.innerHTML = `
+                <label>${p.nazev} (${p.baleni})</label>
+                Cena (Kč): <input type="number" id="cena-${i}" value="${p.cena}">
+                <label style="margin-top:0.5rem; font-weight:normal;">
+                    <input type="checkbox" id="dostupnost-${i}" ${p.dostupnost ? "checked" : ""}> Skladem
+                </label>
+            `;
+            editor.appendChild(block);
+        });
+
+        function exportovat() {
+            let novaData = JSON.parse(JSON.stringify(produkty));
+            novaData.zelenina.forEach((p, i) => {
+                p.cena = Number(document.getElementById("cena-" + i).value);
+                p.dostupnost = document.getElementById("dostupnost-" + i).checked;
+            });
+            const vystup = "const produkty = " + JSON.stringify(novaData, null, 4) + ";\n";
+            const soubor = new Blob([vystup], { type: "application/javascript;charset=utf-8" });
+            const odkaz = document.createElement("a");
+            odkaz.href = URL.createObjectURL(soubor);
+            odkaz.download = "data.js";
+            odkaz.click();
+        }
+    </script>
+</body>
+</html>
