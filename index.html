@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Čerstvé krouhané zelí, brambory a cibule s rozvozem až domů na trase Kniničky, Konice, Prostějov a Olomouc.">
+    <title>Sezónní zelenina Kniničky | Rozvoz Domů</title>
+    <style>
+        :root {
+            --primary: #2d5a27;
+            --secondary: #f4f1ea;
+            --text: #333333;
+            --accent: #d97706;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--secondary);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        section {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: var(--primary);
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            min-width: 500px;
+        }
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f3f4f6;
+        }
+        .highlight {
+            background-color: #fef3c7;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            margin: 1rem 0;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sezónní zelenina Kniničky</h1>
+        <p>Čerstvé krouhané zelí, brambory a cibule s rozvozem až k vám domů.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Harmonogram rozvozů</h2>
+            <div class="highlight">
+                <p><strong>Dny rozvozu:</strong> Středa a Sobota</p>
+                <p><strong>Trasa:</strong> Kniničky – Konice – Prostějov – Olomouc a všechny obce na trase.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Nabídka a ceník</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Komodita</th>
+                            <th>Balení</th>
+                            <th>Cena</th>
+                            <th>Popis</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cenik"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Objednávky</h2>
+            <p>Objednávky přijímáme telefonicky nebo přes WhatsApp. Rozvážíme každou středu a sobotu po celé uvedené trase.</p>
+            <p>
+                <strong>Telefon:</strong> <span id="tel-kontakt">731 193 786</span><br>
+                <strong>E-mail:</strong> objednavky@example.cz
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Sezónní zelenina Kniničky 24 | IČO: 44768648</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        const tabulka = document.getElementById("cenik");
+        if (typeof produkty !== "undefined" && produkty.zelenina) {
+            produkty.zelenina.forEach(p => {
+                const radek = document.createElement("tr");
+                radek.innerHTML = `
+                    <td><strong>${p.nazev}</strong></td>
+                    <td>${p.baleni}</td>
+                    <td>${p.dostupnost ? p.cena + " Kč" : "Vyprodáno"}</td>
+                    <td>${p.popis}</td>
+                `;
+                tabulka.appendChild(radek);
+            });
+        }
+    </script>
+</body>
+</html>
